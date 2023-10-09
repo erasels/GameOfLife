@@ -17,6 +17,9 @@ class AbstractCell(ABC):
     def setLivingState(self, state: bool) -> None:
         self._dead = state
 
+    def die(self):
+        self.setLivingState(False)
+
     @property
     def position(self) -> tuple:
         return self._position
