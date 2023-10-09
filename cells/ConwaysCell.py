@@ -11,15 +11,17 @@ class ConwaysCell(AbstractCell):
         super().setLivingState(state)
         if not state:
             self.color = Color("red")
+        else:
+            self.color = Color("green")
 
     def getNeighbors(self, grid: NDArray) -> list:
         ret = []
         row, col = self.position
-        for i in range(row - 1, row + 2):  # change row + 1 to row + 2
-            if i < 0 or i >= grid.shape[0]:  # change > to >=
+        for i in range(row - 1, row + 2):
+            if i < 0 or i >= grid.shape[0]:
                 continue
-            for j in range(col - 1, col + 2):  # change col + 1 to col + 2
-                if j < 0 or j >= grid.shape[1]:  # change > to >=
+            for j in range(col - 1, col + 2):
+                if j < 0 or j >= grid.shape[1]:
                     continue
                 if (i, j) == self.position:
                     continue
@@ -35,10 +37,11 @@ class ConwaysCell(AbstractCell):
         if self.isDead():
             if livingNeighbors == 3:
                 self.setLivingState(True)
+                self.color = Color("blue")
         else:
             if livingNeighbors < 2 or livingNeighbors > 3:
                 self.die()
 
-    def __init__(self, position: tuple = (0, 0)):
+    def __init__(self, position: tuple = (0, 0), livingState: bool = True):
         super().__init__(position)
-        self.color = Color("green")
+        self.setLivingState(livingState)

@@ -24,10 +24,10 @@ def fill_grid(rows, cols, active_cells: list) -> NDArray[object]:
     new_grid = NDArray((rows, cols), dtype=object)
     for x in range(new_grid.shape[0]):
         for y in range(new_grid.shape[1]):
-            new_cell = ConwaysCell((x, y)) if random.randint(0, 3) == 0 else Space((x, y))
+            new_cell = ConwaysCell((x, y), livingState=random.randint(0, 3) == 0)
             new_grid[x, y] = new_cell
-            if not isinstance(new_cell, Space):
-                active_cells.append(new_cell)
+            #if not isinstance(new_cell, Space):
+            #    active_cells.append(new_cell)
 
     return new_grid
 
@@ -51,8 +51,11 @@ def draw_grid() -> None:
 
 def update_life() -> None:
     global grid, activeCells
-    for cell in activeCells:
-        cell.update(grid, activeCells)
+    #for cell in activeCells:
+    #    cell.update(grid, activeCells)
+    for col in range(grid.shape[0]):
+        for row in range(grid.shape[1]):
+            grid[col, row].update(grid, activeCells)
 
 
 activeCells: list = []
