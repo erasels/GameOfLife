@@ -1,6 +1,11 @@
+import random
+
 import pygame
 import numpy as np
 from numpy.typing import NDArray
+
+from cells.AbstractCell import AbstractCell
+from cells.Space import Space
 
 # Initialize pygame
 pygame.init()
@@ -17,8 +22,17 @@ BLACK = (0, 0, 0)
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Conway's Game of Life")
 
-# Initialize the grid randomly
-grid: NDArray[int] = np.random.choice([0, 1], size=(ROWS, COLS), p=[0.9, 0.1])
+
+def fill_grid(rows, cols, active_cells: list) -> NDArray[object]:
+    new_grid = NDArray((rows, cols), dtype=object)
+    for x in range(new_grid.shape[0]):
+        for y in range(new_grid.shape[1]):
+            new_cell = Space((x, y)) if random.randint(0, 1) == 0 else Space((x, y))
+            new_grid[x, y] = new_cell
+            if not isinstance(new_cell, Space):
+                active_cells.append(new_cell)
+
+    return new_grid
 
 
 def draw_grid() -> None:
@@ -51,6 +65,8 @@ def update_life() -> None:
     grid = new_grid
 
 
+activeCells: list = []
+grid: NDArray[object] = fill_grid(ROWS, COLS, activeCells)
 running = True
 clock = pygame.time.Clock()
 
