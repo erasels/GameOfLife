@@ -3,9 +3,6 @@ from abc import ABC, abstractmethod
 from numpy.typing import NDArray
 from pygame import Color
 
-from cells.Space import Space
-
-
 class AbstractCell(ABC):
     _dead: bool
     _position: tuple
@@ -42,7 +39,6 @@ class AbstractCell(ABC):
 
     # Method to effectively remove the cell from game
     def erase(self, grid: NDArray, activeCells: list):
-        grid[self.position[0], self.position[1]] = Space((self.position[0], self.position[1]))
         activeCells.remove(self)
 
     def __init__(self, position: tuple = (0, 0)):

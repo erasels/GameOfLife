@@ -10,16 +10,16 @@ class ConwaysCell(AbstractCell):
     def setLivingState(self, state: bool) -> None:
         super().setLivingState(state)
         if not state:
-            self.color = Color("grey")
+            self.color = Color("red")
 
     def getNeighbors(self, grid: NDArray) -> list:
         ret = []
         row, col = self.position
-        for i in range(row - 1, row + 1):
-            if i < 0 or i > grid.shape[0]:
+        for i in range(row - 1, row + 2):  # change row + 1 to row + 2
+            if i < 0 or i >= grid.shape[0]:  # change > to >=
                 continue
-            for j in range(col - 1, col + 1):
-                if j < 0 or j > grid.shape[1]:
+            for j in range(col - 1, col + 2):  # change col + 1 to col + 2
+                if j < 0 or j >= grid.shape[1]:  # change > to >=
                     continue
                 if (i, j) == self.position:
                     continue
@@ -41,4 +41,4 @@ class ConwaysCell(AbstractCell):
 
     def __init__(self, position: tuple = (0, 0)):
         super().__init__(position)
-        self.color = Color("white")
+        self.color = Color("green")
