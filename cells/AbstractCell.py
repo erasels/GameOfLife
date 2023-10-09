@@ -3,10 +3,12 @@ from abc import ABC, abstractmethod
 from numpy.typing import NDArray
 from pygame import Color
 
+
 class AbstractCell(ABC):
     _dead: bool
     _position: tuple
     _color: Color
+    _next_state: bool
 
     def isDead(self) -> bool:
         return self._dead
@@ -15,7 +17,16 @@ class AbstractCell(ABC):
         self._dead = state
 
     def die(self):
-        self.setLivingState(False)
+        self.setLivingState(True)
+
+    def setNextState(self, state: bool):
+        self._next_state = state
+
+    def getNextState(self) -> bool:
+        return self._next_state
+
+    def takeNextState(self):
+        self.setLivingState(self._next_state)
 
     @property
     def position(self) -> tuple:
@@ -33,6 +44,9 @@ class AbstractCell(ABC):
     def color(self, color: Color):
         self._color = color
 
+    def onClick(self, grid):
+        print("I am a cell.")
+
     @abstractmethod
     def update(self, grid: NDArray, activeCells: list):
         pass
@@ -44,3 +58,4 @@ class AbstractCell(ABC):
     def __init__(self, position: tuple = (0, 0)):
         self._dead = False
         self._position = position
+        self._next_state = self._dead
